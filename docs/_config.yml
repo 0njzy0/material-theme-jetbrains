@@ -15,14 +15,20 @@ plugins:
 - jekyll-toc
 infinite_scroll: false
 
+twitter: mallowigi
+twutter2: crmag
 tag_dir: /tag
 category_dir: /category
 author_dir: /author
 author_title_prefix: 'Posted by '
-media_folder: /media/compressed
-img_folder: /assets/img
+media_folder: /assets/media/compressed
+img_folder: /assets/media/compressed
 author_default_avatar: /profile-pic.jpeg
 github: https://github.com/mallowigi/material-theme-jetbrains-eap
+version: 1.0.3
+year: 2015-2017
+social_image_path:  /assets/media/compressed/brand/material-logo.png
+social_logo_path:   /assets/media/compressed/brand/material-social-logo.png
 
 encoding: utf-8
 defaults:
@@ -31,7 +37,7 @@ defaults:
       path: ""
       type: "posts"
     values:
-      layout: "post-material-sidebar-left"
+      layout: "material-sidebar-left"
       type: "standard"
       homedisplay: "featimg"
 
@@ -40,18 +46,32 @@ defaults:
       path: ""
       type: "pages"
     values:
-      layout: "page-material-sidebar-left"
+      layout: "material-sidebar-left"
       author: "mallowigi"
+
+  -
+    scope:
+      path: ""
+    values:
+      themes:
+      - oceanic
+      - darker
+      - palenight
+      - lighter
+
 markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+  parse_block_html: true
+
 relative_permalinks: false
 exclude:
   - .git
   - .gitignore
   - sass
   - js
+  - vue
   - .sass-cache
   - package.json
   - gruntfile.js
@@ -77,3 +97,14 @@ collections:
   features:
     permalink: /:collection/:title
     output: true
+
+cdn:
+  # See https://www.srihash.org for info on how to generate the hashes
+  css:              ""
+  css_hash:         ""
+  js:               ""
+  js_hash:          ""
+  jquery:           "https://code.jquery.com/jquery-3.2.1.min.js"
+  jquery_hash:      "sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
+  materialize:      "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"
+  materialize_hash: "sha384-C5yXM3HiWa6a8kI2Jd4LuuwmOGAVgJw0YSmuRXN+PLT5Jln26ddUnPQxkInM/w2x"

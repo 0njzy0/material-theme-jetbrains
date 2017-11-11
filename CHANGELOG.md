@@ -1,5 +1,41 @@
 # Changelog
 
+## 1.3.0
+- New option: **Light Custom Theme**: Use custom colors with IntelliJ Look and Feel. Used for Light themes.
+- Fix Custom Themes styling issues.
+- Change light themes notification colors.
+- Rename Material Default to **Material Oceanic**
+- Automatically change color scheme when switching themes
+- Add alert to reset custom theme colors when switching Look and Feel
+- Change instance fields, static fields and properties colors from Red to White as it is confused with errors.
+- Add update notifications.
+
+## 1.2.1
+- Fix issue #193
+
+## 1.2.0
+- Add new UI Icons for Structure and Web Deployment sections
+- New feature: Accent Scrollbars
+- Changed Active Tab Highlight to display Tab File Colors if defined, at the cost of having a transparent overlay
+- Added Markdown navigator color scheme
+- Added Browse Word at Caret plugin colors
+- Improve File Colors performance by initializing colors statically (thanks @denofevil)
+- Set default ignored file colors to Brown
+- Set default scratch colors to default text
+
+## 1.1.2
+- Atom One Dark Color Scheme
+
+## 1.1.1
+- XCode Development file icons
+- Travis file icons
+
+## 1.1.0
+- Adding Resharper Hint and Suggestion Colors, improved Unknown Variable color, Debugger Colors and Link Colors
+- Updated Lighter scheme default color to be like VSC Lighter Theme
+- Improved Lighter Theme Foreground Color
+- Fix annotations
+
 ## 1.0.2
 - Starting writing documentation
 - Optimization improvements

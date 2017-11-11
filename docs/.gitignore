@@ -7,16 +7,9 @@ Gemfile.lock
 archive/
 img/galleries/
 jekyllbuild/
-js/app.js
 node_modules/
-page-classic-sidebar-left/
-page-classic-sidebar-right/
-page-full/
-page-material-sidebar-left/
-page-material-sidebar-right/
-vendor/
 yarn.lock
-/js/scripts.js
+/vue/scripts.js
 /css/
 
 dist/
@@ -32,3 +25,7 @@ yarn-error.log*
 *.sln
 /dist/
 /assets/js/bundle.js
+/assets/media
+assets/js/app.js
+assets/js/app.js.map
+vue/bundle.js

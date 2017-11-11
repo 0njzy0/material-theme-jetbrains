@@ -25,7 +25,7 @@
  */
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.2.14'
+    id 'org.jetbrains.intellij' version '0.2.17'
     id 'jacoco'
     id 'checkstyle'
 //    id "de.undercouch.download" version "3.2.0"
@@ -64,6 +64,7 @@ sourceSets {
 
 checkstyle {
     configFile = new File(rootDir, "gradle/checkstyle.xml")
+    toolVersion = "8.1"
 }
 
 test {
@@ -82,15 +83,10 @@ jacocoTestReport {
 intellij {
     pluginName 'Material Theme'
 //    version ideaVersion
-    downloadSources true
+    downloadSources false
     sameSinceUntilBuild true
-    alternativeIdePath idePath
+//    alternativeIdePath idePath
     updateSinceUntilBuild = false
-    plugins = ['com.jetbrains.php:173.2290.12',
-               'yaml',
-               'properties',
-               'com.jetbrains.twig:173.2290.12',
-               'Pythonid:2017.3.173.2099.13']
 
 //    systemProperty "idea.platform.prefix","DataGrip"
 

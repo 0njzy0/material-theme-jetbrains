@@ -31,9 +31,10 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     imagemin: {
-      png: {
+      main: {
         options: {
-          optimizationLevel: 7,
+          optimizationLevel: 3,
+          svgoPlugins: [{removeViewBox: false}],
         },
         files: [
           {
@@ -41,88 +42,31 @@ module.exports = function (grunt) {
             expand: true,
             // cwd is 'current working directory'
             cwd: '',
-            src: ['assets/img/*.png', 'assets/img/**/*.png', 'assets/img/**/**/*.png'],
+            src: ['img/**/*.{png,jpg,svg}'],
             // Could also match cwd line above. i.e. project-directory/img/
             dest: 'assets/media/compressed/',
             flatten: true,
-            ext: '.png',
-          },
-        ],
-      },
-      jpg: {
-        options: {
-          progressive: true,
-        },
-        files: [
-          {
-            // Set to true to enable the following options…
-            expand: true,
-            // cwd is 'current working directory'
-            cwd: '',
-            src: ['assets/img/*.jpg',
-              'assets/img/**/*.jpg',
-              'assets/img/**/**/*.jpg',
-              'assets/img/*.jpeg',
-              'assets/img/**/*.jpeg',
-              'assets/img/**/**/*.jpeg'],
-            // Could also match cwd. i.e. project-directory/img/
-            dest: 'assets/media/compressed/',
-            flatten: true,
-            ext: '.jpg',
           },
         ],
       },
     },
 
-    responsive_images: {
-      square: {
-        options: {
-          sizes: [{
-            width: 450,
-            height: 450,
-            aspectRatio: false,
-          }],
-        },
-        files: [{
-          expand: true,
-          flatten: true,
-          src: [
-            'assets/media/compressed/*.{jpg,gif,png}',
-            'assets/media/compressed/!crops/*.{jpg,gif,png}',
-          ],
-          cwd: '',
-          dest: 'assets/media/compressed/crops/450x450/',
-        }],
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['env'],
       },
-      thumbs: {
-        options: {
-          sizes: [{
-            width: 450,
-            height: 253,
-            aspectRatio: false,
-          }],
+      dist: {
+        files: {
+          'assets/js/app.js': 'js/app.js',
         },
-        files: [{
-          expand: true,
-          flatten: true,
-          src: [
-            'assets/media/compressed/*.{jpg,gif,png}',
-            'assets/media/compressed/!crops/*.{jpg,gif,png}',
-          ],
-          cwd: '',
-          dest: 'assets/media/compressed/crops/450x253/',
-        }],
       },
     },
 
     uglify: {
       global: {
-        src: ['assets/js/*.js', '!assets/js/infinite/*.js'],
-        dest: 'assets/js/build/global.min.js',
-      },
-      infinite: {
-        src: 'assets/js/infinite/*.js',
-        dest: 'assets/js/build/infinite.min.js',
+        src: ['assets/js/*.js'],
+        dest: 'assets/js/build/app.min.js',
       },
     },
 
@@ -134,9 +78,6 @@ module.exports = function (grunt) {
         files: {
           'assets/css/main.css': 'sass/main.scss',
           'assets/css/grid.css': 'sass/grid.scss',
-          'assets/css/classic.css': 'sass/classic.scss',
-          // you may want to remove these for your site
-          // 'css/main_teal.css': 'sass/main_teal.scss',
         },
       },
     },
@@ -146,7 +87,7 @@ module.exports = function (grunt) {
         browsers: ['> 1%'],
       },
       no_dest: {
-        src: 'assets/css/*.css' // globbing is also possible here
+        src: 'assets/css/*.css',
       },
     },
 
@@ -164,21 +105,10 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            src: ['assets/js/build/**'],
+            src: ['assets/js/**'],
             dest: 'jekyllbuild/',
           },
         ],
-      },
-    },
-
-    babel: {
-      options: {
-        presets: ['env'],
-      },
-      dist: {
-        files: {
-          'assets/js/scripts.js': 'src/*.js',
-        },
       },
     },
 
@@ -194,17 +124,17 @@ module.exports = function (grunt) {
           '!node_modules/{,*/}*.*'],
         tasks: ['shell:jekyllBuild', 'copy'],
       },
-      // js: {
-      //   files: ['js/{,*/}{,*/}*.js'],
-      //   tasks: ['babel', 'uglify', 'copy:js'],
-      // },
+      js: {
+        files: ['js/{,*/}{,*/}*.js'],
+        tasks: ['newer:babel', 'copy:js'],
+      },
       css: {
         files: ['sass/{,*/}{,*/}{,*/}*.scss'],
         tasks: ['sass', 'autoprefixer', 'copy:css'],
       },
       images: {
-        files: ['assets/img/{,*/}{,*/}*.{png,jpg}'],
-        tasks: ['newer:imagemin', 'responsive_images', 'shell:jekyllBuild', 'copy'],
+        files: ['assets/img/{,*/}{,*/}*.{png,jpg,svg}'],
+        tasks: ['newer:imagemin', 'shell:jekyllBuild', 'copy'],
       },
     },
 
@@ -217,8 +147,8 @@ module.exports = function (grunt) {
       },
       pages: {
         options: {
-          remote: 'git@github.com:mallowigi/material-theme-jetbrains-eap.git', // change that
-          branch: 'gh-pages' // adjust here
+          remote: 'git@github.com:mallowigi/material-theme-jetbrains-eap.git',
+          branch: 'master',
         },
       },
     },
@@ -235,17 +165,23 @@ module.exports = function (grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('serve', ['shell:jekyllServe']);
-  grunt.registerTask('default', ['newer:imagemin',
+  grunt.registerTask('default', [
+    'newer:imagemin',
     'sass',
     'autoprefixer',
+    'newer:babel',
     'shell:jekyllBuild',
     'copy',
     'watch']);
   grunt.registerTask('build', [
+    'imagemin',
     'sass',
     'autoprefixer',
-    'shell:jekyllBuild',
-    'copy']);
-  grunt.registerTask('deploy', ['buildcontrol:pages']);
+    'babel',
+    'uglify',
+    'copy',
+    'shell:jekyllBuild']);
+  grunt.registerTask('deploy', [
+    'buildcontrol:pages',
+  ]);
 };

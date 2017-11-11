@@ -32,6 +32,8 @@ import com.chrisrm.idea.utils.PropertiesParser;
 import com.intellij.ide.ui.LafManager;
 import com.intellij.ide.ui.laf.IntelliJLookAndFeelInfo;
 import com.intellij.ide.ui.laf.darcula.DarculaLookAndFeelInfo;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.ColorUtil;
 import com.intellij.ui.JBColor;
@@ -79,8 +81,6 @@ public abstract class MTTheme implements LafTheme, Serializable {
       JBColor.setDark(isDark());
       IconLoader.setUseDarkIcons(isDark());
 
-      UIManager.put("intellijlaf.background", new ColorUIResource(0x8078a8));
-      UIManager.getDefaults().put("mt.custom.background", new ColorUIResource(0x80cbc4));
       buildResources(getBackgroundResources(), getBackgroundColorString());
       buildResources(getForegroundResources(), getForegroundColorString());
       buildResources(getTextResources(), getTextColorString());
@@ -97,6 +97,9 @@ public abstract class MTTheme implements LafTheme, Serializable {
 
       buildResources(getButtonHighlightResources(), getButtonHighlightColorString());
       buildResources(getTreeSelectionResources(), getTreeSelectionColorString());
+
+      final EditorColorsScheme themeScheme = EditorColorsManager.getInstance().getScheme(editorColorsScheme);
+      EditorColorsManager.getInstance().setGlobalScheme(themeScheme);
 
     } catch (final UnsupportedLookAndFeelException e) {
       e.printStackTrace();
@@ -335,7 +338,6 @@ public abstract class MTTheme implements LafTheme, Serializable {
   protected String[] getBackgroundResources() {
     return new String[]{
         "mt.custom.background",
-        "Panel.background",
         "Menu.background",
         "mt.custom.textBackground",
         "mt.custom.inactiveBackground",
@@ -489,7 +491,7 @@ public abstract class MTTheme implements LafTheme, Serializable {
 
   private void buildResources(final String[] resources, final String color) {
     for (final String resource : resources) {
-      UIManager.put(resource, PropertiesParser.parseColor(color));
+      UIManager.getDefaults().put(resource, PropertiesParser.parseColor(color));
     }
   }
 

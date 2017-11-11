@@ -11,6 +11,7 @@
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
     "jekyllify": "grunt default",
+    "test": "grunt build",
     "serve": "browser-sync start --config browser-sync.js"
   },
   "license": "ISC",
@@ -63,6 +64,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "browser-sync": "^2.18.13",
+    "eslint-plugin-html": "^3.2.2",
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-babel": "^7.0.0",

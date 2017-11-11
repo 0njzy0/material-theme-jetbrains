@@ -27,16 +27,16 @@
 <idea-plugin>
     <id>com.chrisrm.idea.MaterialThemeUI</id>
     <name>Material Theme UI</name>
-    <version>1.0.2</version>
-    <vendor email="chris@hirvi.no" url="https://hirvi.no">Hirvi AS</vendor>
+    <version>1.3.0-beta2</version>
+    <vendor email="heliosaian@gmail.com" url="https://github.com/mallowigi">Mallowigi</vendor>
 
     <description><![CDATA[
         This will add the <a href="https://github.com/equinusocio/material-theme">Material Theme</a> look to your IDE.<br/><br/>
     ]]></description>
 
     <!-- Match with 'intellij.version' in build.gradle -->
-    <!--<idea-version since-build="173.2290.1"/>-->
-    <idea-version since-build="171.2953.9" until-build="173.2290.1"/>
+    <idea-version since-build="173.2290.1"/>
+    <!--<idea-version since-build="171.2953.9" until-build="173.2290.1"/>-->
 
 
     <depends>com.intellij.modules.platform</depends>
@@ -66,11 +66,12 @@
         <editorTabTitleProvider implementation="com.chrisrm.idea.tabs.MTEditorUpperTabs" order="first"/>
         <iconProvider implementation="com.chrisrm.idea.icons.MTHiddenIconProvider" order="first"/>
         <iconProvider implementation="com.chrisrm.idea.icons.MTFileIconProvider" order="first"/>
-        <bundledColorScheme path="/colors/Material Theme - Lighter"/>
-        <bundledColorScheme path="/colors/Material Theme - Default"/>
-        <bundledColorScheme path="/colors/Material Theme - Palenight"/>
-        <bundledColorScheme path="/colors/Material Theme - Darker"/>
-        <bundledColorScheme path="/colors/Material Theme - One Dark"/>
+        <bundledColorScheme path="/colors/Material Lighter"/>
+        <bundledColorScheme path="/colors/Material Oceanic"/>
+        <bundledColorScheme path="/colors/Material Palenight"/>
+        <bundledColorScheme path="/colors/Material Darker"/>
+        <bundledColorScheme path="/colors/Material One Dark"/>
+        <bundledColorScheme path="/colors/Atom One Dark"/>
         <welcomeFrameProvider implementation="com.chrisrm.idea.ui.MTFlatWelcomeFrameProvider"
                               order="FIRST"/>
         <!--<ideRootPaneNorth implementation="com.chrisrm.idea.themes.MTFrameComponentExtension"></ideRootPaneNorth>-->
@@ -83,6 +84,9 @@
     </extensions>
 
     <application-components>
+        <component>
+            <implementation-class>com.chrisrm.idea.MTApplicationComponent</implementation-class>
+        </component>
         <component>
             <implementation-class>com.chrisrm.idea.MTLafComponent</implementation-class>
         </component>
@@ -112,6 +116,9 @@
             <implementation-class>com.chrisrm.idea.config.scope.MTScopeComponent</implementation-class>
             <loadForDefaultProject>true</loadForDefaultProject>
         </component>
+        <component>
+            <implementation-class>com.chrisrm.idea.MTUpdatesComponent</implementation-class>
+        </component>
     </project-components>
 
 
@@ -121,19 +128,19 @@
             <add-to-group group-id="MainToolBar" anchor="last"/>
 
             <action id="MTDarkerTheme" class="com.chrisrm.idea.actions.themes.MTDarkerThemeAction"
-                    text="Darker Theme" description="Material Theme - Darker"
+                    text="Darker Theme" description="Material Darker"
                     icon="/icons/actions/themes/material_darker.png">
             </action>
-            <action id="MTDefaultTheme" class="com.chrisrm.idea.actions.themes.MTDefaultThemeAction"
-                    text="Default Theme" description="Material Theme - Default"
+            <action id="MTOceanicTheme" class="com.chrisrm.idea.actions.themes.MTOceanicThemeAction"
+                    text="Oceanic Theme" description="Material Oceanic"
                     icon="/icons/actions/themes/material_default.png">
             </action>
             <action id="MTPalenightTheme" class="com.chrisrm.idea.actions.themes.MTPalenightThemeAction"
-                    text="Palenight Theme" description="Material Theme - Palenight"
+                    text="Palenight Theme" description="Material Palenight"
                     icon="/icons/actions/themes/material_palenight.png">
             </action>
             <action id="MTLighterTheme" class="com.chrisrm.idea.actions.themes.MTLighterThemeAction"
-                    text="Lighter Theme" description="Material Theme - Lighter"
+                    text="Lighter Theme" description="Material Lighter"
                     icon="/icons/actions/themes/material_lighter.png">
             </action>
             <separator/>
@@ -146,12 +153,17 @@
                     icon="/icons/actions/themes/arc_dark.png">
             </action>
             <action id="MTOneDarkTheme" class="com.chrisrm.idea.actions.themes.MTOneDarkThemeAction"
-                    text="One Dark Theme" description="One Dark Theme"
+                    text="Atom One Dark Theme" description="Atom One Dark Theme"
                     icon="/icons/actions/themes/one_dark.png">
             </action>
+            <separator/>
             <action id="MTCustomTheme" class="com.chrisrm.idea.actions.themes.MTCustomThemeAction"
-                    text="Custom Theme" description="Material Theme - Custom"
+                    text="Custom Theme" description="Material Custom"
                     icon="/icons/actions/themes/custom.png">
+            </action>
+            <action id="MTLightCustomTheme" class="com.chrisrm.idea.actions.themes.MTLightCustomThemeAction"
+                    text="Light Custom Theme" description="Material Light Custom"
+                    icon="/icons/actions/themes/light_custom.png">
             </action>
         </group>
 
@@ -337,6 +349,51 @@
 
     <change-notes><![CDATA[
     <html>
+<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #eee;">1.3.0</h2>
+<ul style="list-style-type:disc;margin-left:1em;padding-left:0.5em;text-indent:0;">
+  <li>New option: <strong>Light Custom Theme</strong>: Use custom colors with IntelliJ Look and Feel. Used for Light themes.</li>
+  <li>Fix Custom Themes styling issues.</li>
+  <li>Change light themes notification colors.</li>
+  <li>Rename Material Default to <strong>Material Oceanic</strong></li>
+  <li>Automatically change color scheme when switching themes</li>
+  <li>Add alert to reset custom theme colors when switching Look and Feel</li>
+  <li>Change instance fields, static fields and properties colors from Red to White as it is confused with errors.</li>
+  <li>Add update notifications.</li>
+</ul>
+
+
+    <h2>1.2.1</h2>
+    <ul>
+    <li>Fix issue with XML Values not being painted for some unknown reason (https://github.com/mallowigi/material-theme-jetbrains-eap/issues/193)</li>
+    </ul>
+        <h2>1.2.0</h2>
+  <ul>
+  <li>Add new UI Icons for Structure and Web Deployment sections</li>
+  <li>New feature: Accent Scrollbars</li>
+  <li>Changed Active Tab Highlight to display Tab File Colors if defined, at the cost of having a transparent overlay</li>
+  <li>Added Markdown navigator color scheme</li>
+  <li>Added Browse Word at Caret plugin colors</li>
+  <li>Improve File Colors performance by initializing colors statically (thanks @denofevil)</li>
+  <li>Set default ignored file colors to Brown</li>
+  <li>Set default scratch colors to default text</li>
+</ul>
+
+    <h2>1.1.2</h2>
+    <ul>
+    <li>Atom One Dark Color Scheme</li>
+    </ul>
+    <h2>1.1.1</h2>
+    <ul>
+    <li>XCode Development file icons</li>
+    <li>Travis icons</li>
+    </ul>
+    <h2>1.1.0</h2>
+    <ul>
+    <li>Adding Resharper Hint and Suggestion Colors, improved Unknown Variable color, Debugger Colors and Link Colors</li>
+    <li>Updated Lighter scheme default color to be like VSC Lighter Theme</li>
+    <li>Improved Lighter Theme foreground color</li>
+    <li>Fix annotations</li>
+    </ul>
     <h2>1.0.2</h2>
     <p>Optimization fixes and documentation start</p>
     <h2>1.0.0</h2>
